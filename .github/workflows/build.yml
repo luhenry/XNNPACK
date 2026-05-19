@@ -120,10 +120,10 @@ jobs:
         run: ccache -s
 
   cmake-linux-riscv64:
-    runs-on: 'ubuntu-24.04-16core'
+    runs-on: 'ubuntu-24.04-riscv'
     timeout-minutes: 60
     container:
-      image: ghcr.io/google/xnnpack/riscv:latest
+      image: ghcr.io/google/xnnpack/standard:latest
     env:
       CMAKE_C_COMPILER_LAUNCHER: ccache
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
@@ -148,10 +148,8 @@ jobs:
         run: |
           scripts/build-linux-riscv64.sh \
             -DCMAKE_BUILD_TYPE=Release \
-            -DXNNPACK_ENABLE_RISCV_VECTOR=ON \
-            -DUSE_GNU_SOURCE=ON \
-            -DRISCV_TOOLCHAIN_ROOT=/opt/riscv \
-            -DRISCV_QEMU_ROOT=/opt/qemu
+            -DXNNPACK_ENABLE_RISCV_VECTOR=OFF \
+            -DUSE_GNU_SOURCE=ON
 
       - name: Run tests (no operator tests)
         if: ${{ inputs.run-tests }}
