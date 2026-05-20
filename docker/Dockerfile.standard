@@ -19,6 +19,7 @@ RUN apt-get install -y \
     ccache \
     gcc-9 g++-9 \
     gcc-13 g++-13 \
+    gcc-14 g++-14 \
     clang-18 llvm-18 lld-18
 
 # Declare TARGETARCH once; Buildx populates this automatically
@@ -45,6 +46,14 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
       chmod +x /usr/local/bin/bazel; \
     else \
       echo "Skipping Bazel installation for unsupported architecture: $TARGETARCH"; \
+    fi
+
+RUN if [ "$TARGETARCH" = "riscv64" ]; then \
+      update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 && \
+      update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100 && \
+      update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-14 100 ; \
+    else \
+      echo "Skipping default to GCC 14 for architecture: $TARGETARCH"; \
     fi
 
 RUN ln -sf /usr/bin/python3 /usr/bin/python
