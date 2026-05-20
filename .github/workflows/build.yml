@@ -14,9 +14,9 @@ on:
         required: false
         type: boolean
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}-${{ inputs.update-caches }}
-  cancel-in-progress: true
+# concurrency:
+#   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}-${{ inputs.update-caches }}
+#   cancel-in-progress: true
 
 jobs:
   cmake-linux-x86_64:
